@@ -107,7 +107,7 @@ def main():
     depth = 16
     num_labels = 10
     num_hidden = 64
-    pickle_path = "notMNIST.pickle"
+    pickle_path = "output/notMNIST.pickle"
 
     train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels \
         = data_util.dataset_normalize(image_size, num_labels, pickle_path)
