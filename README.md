@@ -1,4 +1,5 @@
 # NotMnist
+![NotMnist](http://yaroslavvb.com/upload/notMNIST/nmn.png)
 
 基于TensorFlow r1.2 实现的[字母A-J识别](http://yaroslavvb.blogspot.com/2011/09/notmnist-dataset.html)
 
