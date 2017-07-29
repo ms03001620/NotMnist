@@ -1,7 +1,7 @@
 # NotMnist
 ![NotMnist](http://yaroslavvb.com/upload/notMNIST/nmn.png)
 
-基于TensorFlow r1.2 实现的[字母A-J识别](http://yaroslavvb.blogspot.com/2011/09/notmnist-dataset.html)
+基于TensorFlow r1.2 Python 3.6 实现的[字母A-J识别](http://yaroslavvb.blogspot.com/2011/09/notmnist-dataset.html)
 
 ## 数据处理
 - data.py 该程序将从网络中下载训练图。并导出一个pickle文件，这个文件最终可以随时读入内存并取得训练、验证、测试集数据来使用。
