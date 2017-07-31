@@ -1,15 +1,15 @@
 from __future__ import print_function
-import matplotlib.pyplot as plt
-import numpy as np
+
 import os
 import sys
 import tarfile
-from IPython.display import display, Image
-from scipy import ndimage
-from sklearn.linear_model import LogisticRegression
-from six.moves.urllib.request import urlretrieve
-from six.moves import cPickle as pickle
 import time
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import ndimage
+from six.moves import cPickle as pickle
+from six.moves.urllib.request import urlretrieve
 
 last_percent_reported = None
 def maybe_download(fileurl, filename, expected_bytes, data_root, force=False):
@@ -324,4 +324,4 @@ def main():
     save_all(data_root, train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels)
 
 
-main()
+#main()
