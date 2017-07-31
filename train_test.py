@@ -1,9 +1,10 @@
-import tensorflow as tf
 import numpy as np
-import PIL.Image as Image
+import tensorflow as tf
+
+import data
 
 
-def recognize(list, pb_file_path):
+def recognize(dataset, pb_file_path):
     """
     使用深度神经网络模型进行预测。
     :param png_path: 要预测的图片的路径。
@@ -21,25 +22,21 @@ def recognize(list, pb_file_path):
             tf.global_variables_initializer().run()
 
             input_x = sess.graph.get_tensor_by_name("input:0")
-            print(input_x)
 
-            output = sess.graph.get_tensor_by_name("argmax_output:0")
-            print(output)
+            output = sess.graph.get_tensor_by_name("out_softmax:0")
 
-            for png_path in list:
-                img_datas = np.array(Image.open(png_path).convert('L')).reshape(1, 28, 28, 1)
-                img_output = sess.run(output, feed_dict={
-                    input_x: img_datas,
-                })
-                print(img_output)
+            img_output = sess.run(output, feed_dict={input_x: dataset})
+            print(np.argmax(img_output, axis=1))
 
 
-list = ["images/a0.png",
-        "images/a1.png",
-        "images/b0.png",
-        "images/j0.png"]
 
-recognize(list, "output/not-mnist-a-j-tf1.2.pb")
+dataset = data.load_letter("images", 2, 28, 255).reshape((-1, 28, 28, 1)).astype(np.float32)
+
+# pickle_path = "output/notMNIST.pickle"
+# train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels \
+#     = data_util.dataset_normalize(28, 10, pickle_path)
+
+recognize(dataset, "output/not-mnist-a-j-tf1.2.pb")
 
 
 
