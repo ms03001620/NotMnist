@@ -1,5 +1,7 @@
 import numpy as np
+import tensorflow as tf
 from six.moves import cPickle as pickle
+from tensorflow.python.framework import graph_util
 
 
 def dataset_load_from_pickle(pickle_path):
@@ -40,6 +42,19 @@ def dataset_normalize(image_size, num_labels, pickle_path):
     test_dataset, test_labels = dataset_reformat(test_dataset, test_labels, image_size, num_labels)
     return train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels
 
+
+def save_graph_to_pb(path, session, node):
+    """
+    保存计算图和数据
+    :param path: 本地
+    :param session:
+    :param node:
+    :return:
+    """
+    constant_graph = graph_util.convert_variables_to_constants(session, session.graph_def, [node])
+    with tf.gfile.FastGFile(path, mode='wb') as f:
+        f.write(constant_graph.SerializeToString())
+
 def __print():
     """
     打印数据维度
@@ -56,4 +71,4 @@ def __print():
     print('reformat Validation set', valid_dataset.shape, valid_labels.shape)
     print('reformat Test set', test_dataset.shape, test_labels.shape)
 
-__print()
+#__print()
