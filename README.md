@@ -3,6 +3,9 @@
 
 基于TensorFlow r1.2 Python 3.6 实现的[字母A-J识别](http://yaroslavvb.blogspot.com/2011/09/notmnist-dataset.html)
 
+## 性能
+- 测试集准确度达到96.2% 训练集batch为200 训练时间长度2小时 学习率0.02 总学习次数为20万次
+
 ## 数据处理
 - data.py 该程序将从网络中下载训练图。并导出一个pickle文件，这个文件最终可以随时读入内存并取得训练、验证、测试集数据来使用。
   1. 下载
