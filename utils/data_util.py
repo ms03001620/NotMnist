@@ -42,12 +42,12 @@ def dataset_normalize(image_size, num_labels, pickle_path):
 
 def __print():
     """
-    打印数据形状
+    打印数据维度
     :return:
     """
     image_size = 28
     num_labels = 10
-    pickle_path = "/Users/mark/PycharmProjects/TestHelloWorld/udacity_deep/notMNIST.pickle"
+    pickle_path = "../output/notMNIST.pickle"
 
     train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels \
         = dataset_normalize(image_size, num_labels, pickle_path)
