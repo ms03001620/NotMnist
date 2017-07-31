@@ -4,13 +4,14 @@ import tensorflow as tf
 import data
 
 
-def recognize(dataset, pb_file_path):
+def recognize(png_path, pb_file_path):
     """
     使用深度神经网络模型进行预测。
     :param png_path: 要预测的图片的路径。
     :param pb_file_path: 网络模型文件
     :return:
     """
+    dataset = data.load_letter(png_path, 2, 28, 255).reshape((-1, 28, 28, 1)).astype(np.float32)
     with tf.Graph().as_default():
         output_graph_def = tf.GraphDef()
 
@@ -29,14 +30,4 @@ def recognize(dataset, pb_file_path):
             print(np.argmax(img_output, axis=1))
 
 
-
-dataset = data.load_letter("images", 2, 28, 255).reshape((-1, 28, 28, 1)).astype(np.float32)
-
-# pickle_path = "output/notMNIST.pickle"
-# train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels \
-#     = data_util.dataset_normalize(28, 10, pickle_path)
-
-recognize(dataset, "output/not-mnist-a-j-tf1.2.pb")
-
-
-
+recognize("images/", "output/not-mnist-a-j-tf1.2.pb")
