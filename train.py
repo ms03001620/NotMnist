@@ -21,12 +21,12 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
     layer2_weights = tf.Variable(tf.truncated_normal([patch_size, patch_size, depth, depth], stddev=0.1))
     layer2_biases = tf.Variable(tf.constant(1.0, shape=[depth]))
 
-    layer3_weights = tf.Variable(tf.truncated_normal([num_hidden, num_hidden], stddev=0.1))
+    layer3_weights = tf.Variable(tf.truncated_normal([image_size // 4 * image_size // 4 * depth, num_hidden], stddev=0.1))
     layer3_biases = tf.Variable(tf.constant(1.0, shape=[num_hidden]))
 
     layer4_weights = tf.Variable(tf.truncated_normal([num_hidden, num_labels], stddev=0.1))
-
     layer4_biases = tf.Variable(tf.constant(1.0, shape=[num_labels]))
+
 
     def maxpool2d(x, k=2):
         # MaxPool2D wrapper
@@ -34,23 +34,16 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
 
     # Model.
     def model(data):
-        strides = 2
-        conv = tf.nn.conv2d(data  , layer1_weights, strides = [1, strides, strides, 1], padding='SAME')
-        hidden = tf.nn.relu(tf.nn.bias_add(conv, layer1_biases))
-        hidden = maxpool2d(hidden, k=2)
+        conv = tf.nn.conv2d(data, layer1_weights, [1, 2, 2, 1], padding='SAME')
+        #hidden = tf.nn.relu(conv + layer1_biases)
 
-        conv = tf.nn.conv2d(hidden, layer2_weights, strides = [1, strides, strides, 1], padding='SAME')
-        hidden = tf.nn.relu(tf.nn.bias_add(conv, layer2_biases))
-        hidden = maxpool2d(hidden, k=2)
+        hidden = tf.nn.relu(tf.nn.dropout((conv + layer1_biases), 0.5))
 
+        conv = tf.nn.conv2d(hidden, layer2_weights, [1, 2, 2, 1], padding='SAME')
+        hidden = tf.nn.relu(conv + layer2_biases)
         shape = hidden.get_shape().as_list()
-        hidden = tf.reshape(hidden, [tf.shape(hidden)[0], shape[1] * shape[2] * shape[3]])
-        hidden = tf.add(tf.matmul(hidden, layer3_weights), layer3_biases)
-
-        hidden = tf.nn.relu(hidden)
-
-        #hidden = tf.nn.dropout(hidden, 0.75)
-
+        reshape = tf.reshape(hidden, [tf.shape(hidden)[0], shape[1] * shape[2] * shape[3]])
+        hidden = tf.nn.relu(tf.matmul(reshape, layer3_weights) + layer3_biases)
         return tf.matmul(hidden, layer4_weights) + layer4_biases
 
     # Training computation.
@@ -73,7 +66,7 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
 
 
 def train_network(graph, batch_size, num_steps, train_dataset, train_labels, test_dataset, test_labels, pb_file_path):
-    threshold_train = 95.0
+    threshold_train = 91.0
     threshold_test = 96.0
 
     def accuracy(predictions, labels):
@@ -119,8 +112,8 @@ def train_network(graph, batch_size, num_steps, train_dataset, train_labels, tes
 
 
 def main():
-    patch_size = 4
-    batch_size = 150
+    patch_size = 5
+    batch_size = 200
     image_size = 28
     num_channels = 1
     depth = 16
