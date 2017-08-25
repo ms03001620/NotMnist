@@ -1,3 +1,6 @@
+import os
+import shutil
+
 import numpy as np
 import tensorflow as tf
 
@@ -11,7 +14,7 @@ def recognize(png_path, pb_file_path):
     :param pb_file_path: 网络模型文件
     :return:
     """
-    dataset = data.load_letter(png_path, 2, 28, 255).reshape((-1, 28, 28, 1)).astype(np.float32)
+
     with tf.Graph().as_default():
         output_graph_def = tf.GraphDef()
 
@@ -26,8 +29,33 @@ def recognize(png_path, pb_file_path):
 
             output = sess.graph.get_tensor_by_name("out_softmax:0")
 
-            img_output = sess.run(output, feed_dict={input_x: dataset})
-            print(np.argmax(img_output, axis=1))
+            # feed_test = {graph['x_placeholder']: test_dataset, graph['y_placeholder']: test_labels, graph['keep_prob']: 1}
+
+            image_files = os.listdir(png_path)
+
+            target = "output/notMNIST_large/A12"
+            targetR = "output/notMNIST_large/A12_right"
+
+            for image in image_files:
+                image_file = os.path.join(png_path, image)
+
+                try:
+                    dataset = data.load_letter2(image_file, 1, 28, 255).reshape((-1, 28, 28, 1)).astype(np.float32)
+
+                    img_output = sess.run(output, feed_dict={input_x: dataset, })
+                    value = np.argmax(img_output, axis=1)
+                    if value != 0:
+                        shutil.copy(image_file, target)
+                    else:
+                        shutil.copy(image_file, targetR)
+
+                except IOError as e:
+                    print('Could not read:', image_file, ':', e, '- it\'s ok, skipping.')
+                    shutil.copy(image_file, target)
 
 
-recognize("images/", "output/not-mnist-a-j-tf1.2.pb")
+
+
+
+
+recognize("output/notMNIST_large/A11", "output/not-mnist-a-j-tf1.2.pb")

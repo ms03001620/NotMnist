@@ -114,6 +114,10 @@ def load_letter(folder, min_num_images, image_size, pixel_depth):
     print('Standard deviation:', np.std(dataset))
     return dataset
 
+def load_letter2(image_file, min_num_images, image_size, pixel_depth):
+    image_data = (ndimage.imread(image_file).astype(float) - pixel_depth / 2) / pixel_depth
+    return image_data
+
 
 def maybe_pickle(data_folders, min_num_images_per_class, image_size, pixel_depth, force=False):
     """
