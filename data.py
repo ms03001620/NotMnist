@@ -300,7 +300,7 @@ def main():
     #random_show_an_image_from_dataset(test_datasets)
 
     np.random.seed(133)
-    train_size = 200000
+    train_size = 400000
     valid_size = 10000
     test_size = 10000
 
@@ -328,4 +328,92 @@ def main():
     save_all(data_root, train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels)
 
 
-#main()
+main()
+
+# Found and verified output/notMNIST_large.tar.gz
+# Found and verified output/notMNIST_small.tar.gz
+# output/notMNIST_large already present - Skipping extraction of output/notMNIST_large.tar.gz.
+# ['output/notMNIST_large/A', 'output/notMNIST_large/B', 'output/notMNIST_large/C', 'output/notMNIST_large/D', 'output/notMNIST_large/E', 'output/notMNIST_large/F', 'output/notMNIST_large/G', 'output/notMNIST_large/H', 'output/notMNIST_large/I', 'output/notMNIST_large/J']
+# output/notMNIST_small already present - Skipping extraction of output/notMNIST_small.tar.gz.
+# ['output/notMNIST_small/A', 'output/notMNIST_small/B', 'output/notMNIST_small/C', 'output/notMNIST_small/D', 'output/notMNIST_small/E', 'output/notMNIST_small/F', 'output/notMNIST_small/G', 'output/notMNIST_small/H', 'output/notMNIST_small/I', 'output/notMNIST_small/J']
+# Pickling output/notMNIST_large/A.pickle.
+# output/notMNIST_large/A
+# Could not read: output/notMNIST_large/A/RnJlaWdodERpc3BCb29rSXRhbGljLnR0Zg==.png : cannot identify image file 'output/notMNIST_large/A/RnJlaWdodERpc3BCb29rSXRhbGljLnR0Zg==.png' - it's ok, skipping.
+# Could not read: output/notMNIST_large/A/SG90IE11c3RhcmQgQlROIFBvc3Rlci50dGY=.png : cannot identify image file 'output/notMNIST_large/A/SG90IE11c3RhcmQgQlROIFBvc3Rlci50dGY=.png' - it's ok, skipping.
+# Could not read: output/notMNIST_large/A/Um9tYW5hIEJvbGQucGZi.png : cannot identify image file 'output/notMNIST_large/A/Um9tYW5hIEJvbGQucGZi.png' - it's ok, skipping.
+# Full dataset tensor: (51075, 28, 28)
+# Mean: -0.128453
+# Standard deviation: 0.443803
+# Pickling output/notMNIST_large/B.pickle.
+# output/notMNIST_large/B
+# Could not read: output/notMNIST_large/B/TmlraXNFRi1TZW1pQm9sZEl0YWxpYy5vdGY=.png : cannot identify image file 'output/notMNIST_large/B/TmlraXNFRi1TZW1pQm9sZEl0YWxpYy5vdGY=.png' - it's ok, skipping.
+# Full dataset tensor: (51077, 28, 28)
+# Mean: -0.00347667
+# Standard deviation: 0.455029
+# Pickling output/notMNIST_large/C.pickle.
+# output/notMNIST_large/C
+# Full dataset tensor: (51078, 28, 28)
+# Mean: -0.142583
+# Standard deviation: 0.440447
+# Pickling output/notMNIST_large/D.pickle.
+# output/notMNIST_large/D
+# Could not read: output/notMNIST_large/D/VHJhbnNpdCBCb2xkLnR0Zg==.png : cannot identify image file 'output/notMNIST_large/D/VHJhbnNpdCBCb2xkLnR0Zg==.png' - it's ok, skipping.
+# Full dataset tensor: (51077, 28, 28)
+# Mean: -0.0548701
+# Standard deviation: 0.456601
+# Pickling output/notMNIST_large/E.pickle.
+# output/notMNIST_large/E
+# Full dataset tensor: (51078, 28, 28)
+# Mean: -0.0679113
+# Standard deviation: 0.453847
+# Pickling output/notMNIST_large/F.pickle.
+# output/notMNIST_large/F
+# Full dataset tensor: (51078, 28, 28)
+# Mean: -0.124956
+# Standard deviation: 0.448046
+# Pickling output/notMNIST_large/G.pickle.
+# output/notMNIST_large/G
+# Full dataset tensor: (51078, 28, 28)
+# Mean: -0.09341
+# Standard deviation: 0.447054
+# Pickling output/notMNIST_large/H.pickle.
+# output/notMNIST_large/H
+# Full dataset tensor: (51078, 28, 28)
+# Mean: -0.066204
+# Standard deviation: 0.455211
+# Pickling output/notMNIST_large/I.pickle.
+# output/notMNIST_large/I
+# Full dataset tensor: (51078, 28, 28)
+# Mean: 0.0362627
+# Standard deviation: 0.469454
+# Pickling output/notMNIST_large/J.pickle.
+# output/notMNIST_large/J
+# Full dataset tensor: (51077, 28, 28)
+# Mean: -0.15353
+# Standard deviation: 0.44455
+# output/notMNIST_small/A.pickle already present - Skipping pickling.
+# output/notMNIST_small/B.pickle already present - Skipping pickling.
+# output/notMNIST_small/C.pickle already present - Skipping pickling.
+# output/notMNIST_small/D.pickle already present - Skipping pickling.
+# output/notMNIST_small/E.pickle already present - Skipping pickling.
+# output/notMNIST_small/F.pickle already present - Skipping pickling.
+# output/notMNIST_small/G.pickle already present - Skipping pickling.
+# output/notMNIST_small/H.pickle already present - Skipping pickling.
+# output/notMNIST_small/I.pickle already present - Skipping pickling.
+# output/notMNIST_small/J.pickle already present - Skipping pickling.
+# Training: (200000, 28, 28) (200000,)
+# Validation: (10000, 28, 28) (10000,)
+# Testing: (10000, 28, 28) (10000,)
+# Number of overlaps between training and test sets: 1198. Execution time: 0.5800389999999993.
+# Number of overlaps between training and validation sets: 965. Execution time: 0.7218340000000012.
+# Number of overlaps between validation and test sets: 63. Execution time: 0.05554699999999002.
+# Compressed pickle size: 690800506
+
+
+# Training: (400000, 28, 28) (400000,)
+# Validation: (10000, 28, 28) (10000,)
+# Testing: (10000, 28, 28) (10000,)
+# Number of overlaps between training and test sets: 2108. Execution time: 1.0589070000000005.
+# Number of overlaps between training and validation sets: 1723. Execution time: 0.9950900000000003.
+# Number of overlaps between validation and test sets: 63. Execution time: 0.07026000000000021.
+# Compressed pickle size: 1318800506

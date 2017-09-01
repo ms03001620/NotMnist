@@ -116,9 +116,9 @@ def delFileByIndexFolder(indexFolder):
     '''
     pics = recognize(indexFolder, 65535)
     print("file size:(%s)" % len(pics))#18340
-    #delFiles(pics)
+    delFiles(pics)
 
 
-delFileByIndexFolder("output/notMNIST_large/A11")
+#delFileByIndexFolder("output/notMNIST_large/A11")
 
 

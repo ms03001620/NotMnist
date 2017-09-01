@@ -11,7 +11,7 @@ def get_weight(weight):
     return weight
 
 def build_network(patch_size, image_size, num_channels, depth, num_labels, num_hidden):
-    keep_prob = tf.placeholder(tf.float32)
+    keep_prob = tf.placeholder(tf.float32, name="keep")
     tf_train_dataset = tf.placeholder(tf.float32, shape=(None, image_size, image_size, num_channels), name='input')
     tf_train_labels = tf.placeholder(tf.float32, shape=(None, num_labels))
 
@@ -69,7 +69,7 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
 
 
 def train_network(graph, batch_size, num_steps, train_dataset, train_labels, test_dataset, test_labels, pb_file_path):
-    threshold_train = 92.0
+    threshold_train = 94
     threshold_test = 96.4
 
     def accuracy(predictions, labels):
@@ -79,7 +79,7 @@ def train_network(graph, batch_size, num_steps, train_dataset, train_labels, tes
         feed_test = {graph['x_placeholder']: test_dataset, graph['y_placeholder']: test_labels, graph['keep_prob']: 1}
         acc = accuracy(session.run(graph['train_prediction'], feed_dict=feed_test), test_labels)
 
-        print(colored('Recording Test accuracy: %.1f%%'% acc, 'red'))
+        print(colored('Recording Test accuracy: %f%%'% acc, 'red'))
         if acc > threshold_test:
             data_util.save_graph_to_pb(pb_file_path, session, "out_softmax")
             return acc
