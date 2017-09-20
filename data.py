@@ -328,7 +328,7 @@ def main():
     save_all(data_root, train_dataset, train_labels, valid_dataset, valid_labels, test_dataset, test_labels)
 
 
-main()
+#main()
 
 # Found and verified output/notMNIST_large.tar.gz
 # Found and verified output/notMNIST_small.tar.gz
