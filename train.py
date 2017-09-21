@@ -116,7 +116,7 @@ def train_network(graph, batch_size, num_steps, train_dataset, train_labels, tes
 
 def main():
     patch_size = 5
-    batch_size = 32
+    batch_size = 100
     image_size = 28
     num_channels = 1
     depth = 16
