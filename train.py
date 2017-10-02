@@ -10,6 +10,7 @@ def get_weight(weight):
     tf.add_to_collection("losses", tf.contrib.layers.l2_regularizer(0.001)(weight))
     return weight
 
+
 def build_network(patch_size, image_size, num_channels, depth, num_labels, num_hidden):
     keep_prob = tf.placeholder(tf.float32, name="keep")
     tf_train_dataset = tf.placeholder(tf.float32, shape=(None, image_size, image_size, num_channels), name='input')
@@ -27,7 +28,6 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
 
     layer4_weights = tf.Variable(tf.truncated_normal([num_hidden, num_labels], stddev=0.1))
     layer4_biases = tf.Variable(tf.constant(1.0, shape=[num_labels]))
-
 
     def maxpool2d(x, k=2):
         # MaxPool2D wrapper
@@ -68,12 +68,21 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
     )
 
 
-def train_network(graph, batch_size, num_steps, train_dataset, train_labels, test_dataset, test_labels, pb_file_path):
+def train_network(graph,
+                  batch_size,
+                  num_steps,
+                  train_dataset,
+                  train_labels,
+                  test_dataset,
+                  test_labels,
+                  valid_dataset,
+                  valid_labels,
+                  pb_file_path):
     threshold_train = 94
     threshold_test = 96.4
 
     def accuracy(predictions, labels):
-        return (100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0])
+        return 100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0]
 
     def recording(accuracy, graph, pb_file_path, session, test_dataset, test_labels, threshold_test):
         feed_test = {graph['x_placeholder']: test_dataset, graph['y_placeholder']: test_labels, graph['keep_prob']: 1}
@@ -95,7 +104,9 @@ def train_network(graph, batch_size, num_steps, train_dataset, train_labels, tes
 
             batch_labels = train_labels[start:end]
 
-            feed_dict = {graph['x_placeholder']: train_dataset[start:end], graph['y_placeholder']: batch_labels, graph['keep_prob']: .75}
+            feed_dict = {graph['x_placeholder']: train_dataset[start:end],
+                         graph['y_placeholder']: batch_labels,
+                         graph['keep_prob']: .75}
 
             _, loss, predictions = session.run([graph['optimizer'], graph['loss'], graph['train_prediction']], feed_dict=feed_dict)
 
@@ -133,6 +144,15 @@ def main():
     pb_file_path = "output/not-mnist-a-j-tf1.2.pb"
 
     print(train_dataset.shape)
-    train_network(graph, batch_size, num_steps, train_dataset, train_labels, test_dataset, test_labels, pb_file_path)
+    train_network(graph,
+                  batch_size,
+                  num_steps,
+                  train_dataset,
+                  train_labels,
+                  test_dataset,
+                  test_labels,
+                  valid_dataset,
+                  valid_labels,
+                  pb_file_path)
 
 main()
