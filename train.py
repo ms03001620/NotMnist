@@ -84,8 +84,19 @@ def train_network(graph,
     def accuracy(predictions, labels):
         return 100.0 * np.sum(np.argmax(predictions, 1) == np.argmax(labels, 1)) / predictions.shape[0]
 
-    def recording(accuracy, graph, pb_file_path, session, test_dataset, test_labels, threshold_test):
-        feed_test = {graph['x_placeholder']: test_dataset, graph['y_placeholder']: test_labels, graph['keep_prob']: 1}
+    def recording(accuracy,
+                  graph,
+                  pb_file_path,
+                  session,
+                  test_dataset,
+                  test_labels,
+                  valid_dataset,
+                  valid_labels,
+                  threshold_test):
+
+        feed_test = {graph['x_placeholder']: test_dataset,
+                     graph['y_placeholder']: test_labels,
+                     graph['keep_prob']: 1}
         acc = accuracy(session.run(graph['train_prediction'], feed_dict=feed_test), test_labels)
 
         print(colored('Recording Test accuracy: %f%%'% acc, 'red'))
@@ -116,10 +127,17 @@ def train_network(graph,
                 print('%d\t step, accuracy %0.1f%% ' % (step, acc))
 
                 if acc >= threshold_train:
-                    threshold_test = recording(accuracy, graph, pb_file_path, session, test_dataset, test_labels, threshold_test)
+                    threshold_test = recording(accuracy,
+                                               graph,
+                                               pb_file_path,
+                                               session,
+                                               test_dataset,
+                                               test_labels,
+                                               valid_dataset,
+                                               valid_labels,
+                                               threshold_test)
                     #threshold_train = acc
 
-        recording(accuracy, graph, pb_file_path, session, test_dataset, test_labels, threshold_test)
 
 
 
