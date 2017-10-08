@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import numpy as np
 import tensorflow as tf
 from six.moves import range
@@ -44,9 +45,13 @@ def build_network(patch_size, image_size, num_channels, depth, num_labels, num_h
         shape = hidden.get_shape().as_list()
         reshape = tf.reshape(hidden, [tf.shape(hidden)[0], shape[1] * shape[2] * shape[3]])
 
-        hidden = tf.nn.relu(tf.nn.dropout((tf.matmul(reshape, layer3_weights) + layer3_biases), keep_prob))
+        fc1 = (tf.matmul(reshape, layer3_weights) + layer3_biases)
 
-        return tf.matmul(hidden, layer4_weights) + layer4_biases
+        hidden = tf.nn.relu(tf.nn.dropout(fc1, keep_prob))
+
+        fc2 = tf.matmul(hidden, layer4_weights) + layer4_biases
+
+        return fc2
 
     # Training computation.
     logits = model(tf_train_dataset)
