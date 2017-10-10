@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+import sys
+
 import numpy as np
 import tensorflow as tf
 from six.moves import range
@@ -82,8 +84,9 @@ def train_network(graph,
                   test_labels,
                   valid_dataset,
                   valid_labels,
-                  pb_file_path):
-    threshold_train = 94
+                  pb_file_path,
+                  logFile):
+    threshold_train = 96
     threshold_test = 97.18
 
     def accuracy(predictions, labels):
@@ -105,8 +108,9 @@ def train_network(graph,
         acc = accuracy(session.run(graph['train_prediction'], feed_dict=feed_test), test_labels)
 
         print(colored('Recording Test accuracy: %f%%'% acc, 'red'))
+        logFile.flush()
         if acc > threshold_test:
-            data_util.save_graph_to_pb(pb_file_path, session, "out_softmax")
+            data_util.save_graph_to_pb(pb_file_path+'{:.2f}'.format(acc)+".pb", session, "out_softmax")
             return acc
         return threshold_test
 
@@ -130,7 +134,7 @@ def train_network(graph,
                 acc = accuracy(predictions, batch_labels)
                 #print('%d\t step, accuracy %0.1f%% lost %f' % (step, acc, loss))
                 print('%d\t step, accuracy %0.1f%% ' % (step, acc))
-
+                logFile.flush()
                 if acc >= threshold_train:
                     threshold_test = recording(accuracy,
                                                graph,
@@ -144,9 +148,10 @@ def train_network(graph,
                     #threshold_train = acc
 
 
-
-
-
+def createLogSaveFile():
+    logFile = open('out.txt', 'w')
+    sys.stdout = logFile
+    return logFile
 
 def main():
     patch_size = 5
@@ -164,7 +169,7 @@ def main():
     graph = build_network(patch_size, image_size, num_channels, depth, num_labels, num_hidden)
     num_steps = 10001999999
 
-    pb_file_path = "output/not-mnist-a-j-tf1.2.pb"
+    pb_file_path = "output/"
 
     print(train_dataset.shape)
     train_network(graph,
@@ -176,6 +181,7 @@ def main():
                   test_labels,
                   valid_dataset,
                   valid_labels,
-                  pb_file_path)
+                  pb_file_path,
+                  createLogSaveFile())
 
 main()
