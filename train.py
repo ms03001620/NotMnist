@@ -167,7 +167,7 @@ def main():
         = data_util.dataset_normalize(image_size, num_labels, pickle_path)
 
     graph = build_network(patch_size, image_size, num_channels, depth, num_labels, num_hidden)
-    num_steps = 10001999999
+    num_steps = 10000000000
 
     pb_file_path = "output/"
 

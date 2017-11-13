@@ -83,7 +83,7 @@ def maybe_extract(data_root, filename, force=False):
 
 def load_letter(folder, min_num_images, image_size, pixel_depth):
     """
-    将指定文件夹内图片读取到内存，并修改起形状
+    将指定文件夹内图片读取到内存，并修改起形状，如果文件夹内图片少于（min_num_images）抛出异常
     :param folder: 目标文件夹
     :param min_num_images:
     :param image_size: 图片尺寸。只针对该尺寸处理
@@ -231,7 +231,7 @@ def check_overlaps(images1, images2):
 
 def randomize(dataset, labels):
     """
-    讲数据集（dataset）内顺序打乱。数据集内原先是依次存放A-J所有数据
+    将数据集（dataset）内顺序打乱。数据集内原先是依次存放A-J所有数据
     :param dataset:
     :param labels:
     :return:
@@ -295,8 +295,8 @@ def main():
     image_size = 28  # Pixel width and height.
     pixel_depth = 255.0  # Number of levels per pixel.
 
-    train_datasets = maybe_pickle(train_folders, 45000, image_size, pixel_depth)
-    test_datasets = maybe_pickle(test_folders, 1800, image_size, pixel_depth)
+    train_pickles = maybe_pickle(train_folders, 45000, image_size, pixel_depth)
+    test_pickles = maybe_pickle(test_folders, 1800, image_size, pixel_depth)
 
     #random_show_an_image_from_dataset(test_datasets)
 
@@ -305,10 +305,8 @@ def main():
     valid_size = 10000
     test_size = 10000
 
-    valid_dataset, valid_labels, train_dataset, train_labels \
-        = merge_datasets(image_size, train_datasets, train_size, valid_size)
-    _, _, test_dataset, test_labels \
-        = merge_datasets(image_size, test_datasets, test_size)
+    valid_dataset, valid_labels, train_dataset, train_labels  = merge_datasets(image_size, train_pickles, train_size, valid_size)
+    _, _, test_dataset, test_labels = merge_datasets(image_size, test_pickles, test_size)
 
     print('Training:', train_dataset.shape, train_labels.shape)
     print('Validation:', valid_dataset.shape, valid_labels.shape)
