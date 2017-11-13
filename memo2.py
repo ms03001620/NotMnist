@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import numpy as np
 from memory_profiler import profile
 from six.moves import cPickle as pickle
